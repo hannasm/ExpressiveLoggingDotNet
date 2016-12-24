@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9A165757-B3D6-4BA3-A56F-A9FA3CC6A3EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExpressiveLogging.Merged</RootNamespace>
+    <AssemblyName>ExpressiveLogging.Merged</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AssemblyRefactoring, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AssemblyRefactoring.1.0.0\lib\AssemblyRefactoring.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressiveLogging.AssertableLogging\ExpressiveLogging.AssertableLogging.csproj">
+      <Project>{bcb81f3e-2ecd-4f55-b659-efe0fa705519}</Project>
+      <Name>ExpressiveLogging.AssertableLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.BufferLogging\ExpressiveLogging.BufferLogging.csproj">
+      <Project>{a934c9b1-ca05-4a86-ae77-b93db48210ea}</Project>
+      <Name>ExpressiveLogging.BufferLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.CompositeLogStream\ExpressiveLogging.CompositeLogging.csproj">
+      <Project>{7175cc0e-47ad-4b64-8681-7d594d805e09}</Project>
+      <Name>ExpressiveLogging.CompositeLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.Console\ExpressiveLogging.ConsoleLogging.csproj">
+      <Project>{489bbe34-a2b4-416c-b94f-f65727c8a235}</Project>
+      <Name>ExpressiveLogging.ConsoleLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.Filtering\ExpressiveLogging.Filtering.csproj">
+      <Project>{0fecddb7-2a1c-47e9-9d6d-91825080b652}</Project>
+      <Name>ExpressiveLogging.Filtering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.NullLogStream\ExpressiveLogging.NullLogging.csproj">
+      <Project>{9320ca5b-d2e0-4abd-b759-ca5fbb43d62f}</Project>
+      <Name>ExpressiveLogging.NullLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.StreamFormatters\ExpressiveLogging.StreamFormatters.csproj">
+      <Project>{2eab7b02-1362-40c7-a2d1-058b2a098782}</Project>
+      <Name>ExpressiveLogging.StreamFormatters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.SystemDiagnosticsLogging\ExpressiveLogging.SystemDiagnosticsLogging.csproj">
+      <Project>{bd4baae9-8f15-4c5b-84e2-aca6e428a475}</Project>
+      <Name>ExpressiveLogging.SystemDiagnosticsLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging.TextWriterLogging\ExpressiveLogging.TextWriterLogging.csproj">
+      <Project>{8da0b4cc-1a9a-4fb3-8a7a-94772c59f5c0}</Project>
+      <Name>ExpressiveLogging.TextWriterLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressiveLogging\ExpressiveLogging.csproj">
+      <Project>{92ff80e2-f3d5-45b4-b3df-b196da9e772b}</Project>
+      <Name>ExpressiveLogging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE.md" />
+    <None Include="Package.nuspec" />
+    <None Include="packages.config" />
+    <None Include="README.md" />
+    <None Include="RefactorAssembly.ps1" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)tmp"
+echo "run ilmerge"
+"$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe"  "$(TargetPath)" "$(TargetDir)ExpressiveLogging.dll" "$(TargetDir)ExpressiveLogging.AssertableLogging.dll" "$(TargetDir)ExpressiveLogging.BufferLogging.dll" "$(TargetDir)ExpressiveLogging.CompositeLogging.dll" "$(TargetDir)ExpressiveLogging.ConsoleLogging.dll" "$(TargetDir)ExpressiveLogging.Filtering.dll" "$(TargetDir)ExpressiveLogging.NullLogging.dll" "$(TargetDir)ExpressiveLogging.StreamFormatters.dll" "$(TargetDir)ExpressiveLogging.SystemDiagnosticsLogging.dll" "$(TargetDir)ExpressiveLogging.TextWriterLogging.dll" "/out:$(TargetDir)tmp\$(TargetFileName)"
+echo "cleanp"
+del /F "$(TargetDir)ExpressiveLogging.dll" "$(TargetDir)ExpressiveLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.AssertableLogging.dll" "$(TargetDir)ExpressiveLogging.AssertableLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.BufferLogging.dll" "$(TargetDir)ExpressiveLogging.BufferLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.CompositeLogging.dll" "$(TargetDir)ExpressiveLogging.CompositeLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.ConsoleLogging.dll" "$(TargetDir)ExpressiveLogging.ConsoleLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.Filtering.dll" "$(TargetDir)ExpressiveLogging.Filtering.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.NullLogging.dll" "$(TargetDir)ExpressiveLogging.NullLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.StreamFormatters.dll" "$(TargetDir)ExpressiveLogging.StreamFormatters.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.SystemDiagnosticsLogging.dll" "$(TargetDir)ExpressiveLogging.SystemDiagnosticsLogging.pdb" 
+del /F "$(TargetDir)ExpressiveLogging.TextWriterLogging.dll" "$(TargetDir)ExpressiveLogging.TextWriterLogging.pdb"
+del /F "$(TargetDir)$(TargetName)$(TargetExt)"
+del /F "$(TargetDir)$(TargetName).pdb"
+move "$(TargetDir)tmp\$(TargetName)$(TargetExt)" "$(TargetDir)$(TargetName)$(TargetExt)"
+move "$(TargetDir)tmp\$(TargetName).pdb" "$(TargetDir)$(TargetName).pdb"
+rmdir "$(TargetDir)tmp"
+powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(ProjectDir)RefactorAssembly.ps1 '$(TargetDir)' '$(SolutionDir)'"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(SolutionDir)UpdateNugetPackageIfNeeded.ps1  '$(SolutionDir)' '$(ProjectDir)'"
+</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

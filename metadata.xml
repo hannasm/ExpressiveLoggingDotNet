@@ -1,0 +1,8 @@
+<solution>
+  <version>1.0.0</version>
+  <releaseNotes>
+    * 1.0.0 - This is the first release and includes all sorts of new code
+    * 1.0.0 - there has been minimal testing
+    * 1.0.0 - There are all sorts of things that should still be added to this library that aren't there yet
+  </releaseNotes>
+</solution>

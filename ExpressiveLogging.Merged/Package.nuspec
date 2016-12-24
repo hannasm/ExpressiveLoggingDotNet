@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>ExpressiveLogging</id>
+    <version>1.0.0</version>
+    <authors>hannasm</authors>
+    <owners>hannasm</owners>
+    <licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotNet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/hannasm/ExpressiveLoggingDotNet/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Flexible logging framework based on lambdas and expression trees</description>
+    <releaseNotes>
+    * 1.0.0 - This is the first release and includes all sorts of new code
+    * 1.0.0 - there has been minimal testing
+    * 1.0.0 - There are all sorts of things that should still be added to this library that aren't there yet
+  </releaseNotes>
+    <copyright>Copyright 2016</copyright>
+  </metadata>
+  <files>
+    <file src="..\readme.md" target="content\README_ExpressiveLogging.md" />
+    <file src="..\LICENSE.md" target="content\LICENSE_ExpressiveLogging.md" />
+    <file src="bin\Release\ExpressiveLogging.V1.dll" target="lib" />
+    <file src="bin\Release\ExpressiveLogging.V1.pdb" target="lib" />
+  </files>
+</package>
+<!-- vim: set expandtab ts=2 sw=2:  -->
