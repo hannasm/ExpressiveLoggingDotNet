@@ -1,10 +1,10 @@
 # Versioning
-This is version 1.0.0 of the expressive logging library
+This is version 1.0.1 of the expressive logging library
 
-The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/1.0.0
-The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/1.0.0
+The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/1.0.1
+The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/1.0.1
 
-The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/1.0.0
+The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/1.0.1
 
 # About
 The expressive logging project attempts to provide a robust logging framework that leverages lambda expressions to provide
@@ -503,6 +503,8 @@ You can always build these assemblies from source if this is a big issue
 This code is released under an MIT license. 
 
 # Changelog
+## 1.0.1 
+  * 1.0.1 - fix for issue with assembly refactoring script, that caused corrupted dll (assembly bind failures)
 
 ## 1.0.0
  * 1.0.0 - This is the first release and includes all sorts of new code

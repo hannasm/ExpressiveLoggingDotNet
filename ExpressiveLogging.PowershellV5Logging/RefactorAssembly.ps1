@@ -23,8 +23,8 @@ $oldNS = 'ExpressiveLogging';
 $newNS = 'ExpressiveLogging.V' + $verString;
 $oldAssemRef = $oldNS;
 $newAssemRef = $newNS;
-$oldAssem = 'ExpressiveLogging.PowershellV5Logging.RunspaceLogging';
-$newAssem = 'ExpressiveLogging.V' + $verString + '.PowershellV5Logging.';
+$oldAssem = 'ExpressiveLogging.PowershellV5Logging';
+$newAssem = 'ExpressiveLogging.V' + $verString + '.PowershellV5Logging';
 
 $x = new-object AssemblyRefactoring.AssemblyRefactoringContext $targetDll
 

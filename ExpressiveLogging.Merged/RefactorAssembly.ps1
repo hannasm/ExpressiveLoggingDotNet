@@ -22,7 +22,7 @@ $targetPdb = join-path $path 'ExpressiveLogging.Merged.pdb';
 $oldNS = 'ExpressiveLogging';
 $newNS = 'ExpressiveLogging.V' + $verString;
 $oldAssemRef = $oldNS;
-$oldAssem = $oldNS;
+$oldAssem = 'ExpressiveLogging.Merged'
 $newAssemRef = $newNS;
 $newAssem = $newNS;
 

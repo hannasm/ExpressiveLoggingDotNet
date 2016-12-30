@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>ExpressiveLogging.PowershellV5Logging</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>hannasm</authors>
     <owners>hannasm</owners>
     <licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotNet/blob/master/LICENSE.md</licenseUrl>
@@ -10,6 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Flexible logging framework based on lambdas and expression trees - this package includes the assemblies that enable tight integration with powershell runtime</description>
     <releaseNotes>
+    * 1.0.1 - fix for issue with assembly refactoring script, that caused corrupted dll (assembly bind failures)
     * 1.0.0 - This is the first release and includes all sorts of new code
     * 1.0.0 - there has been minimal testing
     * 1.0.0 - There are all sorts of things that should still be added to this library that aren't there yet
@@ -17,7 +18,7 @@
     <copyright>Copyright 2016</copyright>
     <dependencies>
       <group>
-        <dependency id="ExpressiveLogging" version="1.0.0" />
+        <dependency id="ExpressiveLogging" version="1.0.1" />
       </group>
     </dependencies>
   </metadata>
