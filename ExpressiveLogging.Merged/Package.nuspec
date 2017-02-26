@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>ExpressiveLogging</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>hannasm</authors>
     <owners>hannasm</owners>
     <licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotNet/blob/master/LICENSE.md</licenseUrl>
@@ -10,6 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Flexible logging framework based on lambdas and expression trees</description>
     <releaseNotes>
+    * 1.0.2 - AssertableLogStream had some bugs that made it unusable, fixed those and tested this code thoroughly
     * 1.0.1 - fix for issue with assembly refactoring script, that caused corrupted dll (assembly bind failures)
     * 1.0.0 - This is the first release and includes all sorts of new code
     * 1.0.0 - there has been minimal testing

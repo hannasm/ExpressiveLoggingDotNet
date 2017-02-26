@@ -63,8 +63,8 @@ namespace ExpressiveLogging.AssertableLogging
 
         void initializeDelgates(Action onError) {
             _message = (l, t, e, u, m, f) => onError();
-            _beginScope = (c, t, p) => onError();
-            _endScope = (c, t, p) => onError();
+            _beginScope = (c, t, m, f) => onError();
+            _endScope = (c, t, m, f) => onError();
             _incrementRawCounter = (t, v) => onError();
             _setRawCounter = (t, v) => onError();
             _incrementNamedCounter = (t, c, v) => onError();
@@ -78,8 +78,8 @@ namespace ExpressiveLogging.AssertableLogging
         RawCounterAssertion _incrementRawCounter, _setRawCounter;
         NamedCounterAssertion _incrementNamedCounter, _setNamedCounter;
         
-        public delegate void BeginScopeAssertion(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder);
-        public delegate void EndScopeAssertion(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder);
+        public delegate void BeginScopeAssertion(ILoggingContext ctx, ILogToken t, string msg, object[] fmt);
+        public delegate void EndScopeAssertion(ILoggingContext ctx, ILogToken t, string msg, object[] fmt);
         public delegate void LoggingAssertion(LoggingLevel level, ILogToken token, Exception error, int? uniqueness, string message, object[] fmt);
         public delegate void RawCounterAssertion(IRawCounterToken ct, long value);
         public delegate void NamedCounterAssertion(ILogToken lt, INamedCounterToken ct, long value);
@@ -224,14 +224,16 @@ namespace ExpressiveLogging.AssertableLogging
         {
             var tst = _beginScope;
             initializeDelgates(_onError);
-            tst(ctx, t, msgBuilder);
+
+            msgBuilder((m, f) => tst(ctx, t, m, f));
         }
 
         public void EndScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
         {
             var tst = _endScope;
             initializeDelgates(_onError);
-            tst(ctx, t, msgBuilder);
+
+            msgBuilder((m, f) => tst(ctx, t, m, f));
         }
         
         public void IncrementCounterBy(IRawCounterToken ct, long value)

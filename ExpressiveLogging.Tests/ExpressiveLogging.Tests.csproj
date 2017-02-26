@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExpressiveLogging.Tests</RootNamespace>
     <AssemblyName>ExpressiveLogging.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,18 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExpressiveAssertions, Version=0.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExpressiveAssertions.MSTest.0.9.2\lib\ExpressiveAssertions.dll</HintPath>
+    <Reference Include="ExpressiveAssertions, Version=0.9.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExpressiveAssertions.0.9.7\lib\ExpressiveAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ExpressiveAssertions.MSTest, Version=0.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExpressiveAssertions.MSTest.0.9.2\lib\ExpressiveAssertions.MSTest.dll</HintPath>
+    <Reference Include="ExpressiveAssertions.MSTest, Version=0.9.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExpressiveAssertions.MSTest.0.9.7\lib\ExpressiveAssertions.MSTest.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExpressiveAssertions.MSTest.0.9.2\lib\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -58,6 +56,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AssertionLogStreamTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleAutoExecutorTestHarness\BufferedLogStreamAutoExecutorTests.cs" />
     <Compile Include="SimpleAutoExecutorTestHarness\CompositeLogStreamAutoExecutorTests.cs" />
@@ -123,8 +122,14 @@
   <ItemGroup>
     <None Include="LICENSE_ExpressionToCode.md" />
     <None Include="LICENSE_ExpressiveAssertions.md" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="README_ExpressiveAssertions.md" />
+    <None Include="README_ExpressiveAssertionsMSTEST.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -72,7 +72,7 @@ namespace ExpressiveLogging.AssertableLogging
         }
         public void AssertSetNamedCounter(NamedCounterAssertion set)
         {
-            AssertIncrementNamedCounter(set, null);
+            AssertSetNamedCounter(set, null);
         }
         public void AssertSetNamedCounter(NamedCounterAssertion set, Action onError)
         {

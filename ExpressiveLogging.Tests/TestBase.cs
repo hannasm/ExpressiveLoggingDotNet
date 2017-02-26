@@ -1,4 +1,5 @@
 ﻿using ExpressiveAssertions;
+using ExpressiveAssertions.MSTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace ExpressiveLogging.Tests
         [TestInitialize]
         public virtual void OnTestStart()
         {
-            _assert = new ExpressiveAssertions.MSTest.MSTestAssertionTool();
+            _assert = MSTestAssertionTool.Create();
         }
         [TestCleanup]
         public virtual void OnTestEnd()

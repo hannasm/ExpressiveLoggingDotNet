@@ -98,8 +98,12 @@ namespace ExpressiveLogging.BufferLogging
             List<KeyValuePair<string, object>> keys = LoggingCallContextStore.ExportKeys();
             Action <ILogStream> act2 = l =>
             {
-                var tok = keys.Single(kvp => kvp.Key == BUFFERED_LOGTOKEN_KEY).Value.ToString();
-                l.OnAttachScopeParameters(LogManager.GetToken(tok), keys);
+                var x = keys.Where(kvp => kvp.Key == BUFFERED_LOGTOKEN_KEY);
+                if (x.Any())
+                {
+                    var tok = x.Single().Value.ToString();
+                    l.OnAttachScopeParameters(LogManager.GetToken(tok), keys);
+                }
                 var ctx = LoggingCallContextStore.Push(keys);
                 action(l, ctx);
                 LoggingCallContextStore.Pop(ctx);

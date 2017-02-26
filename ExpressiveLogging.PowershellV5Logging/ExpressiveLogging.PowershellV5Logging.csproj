@@ -83,7 +83,7 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)tmp"
 echo "run ilmerge"
-"$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe"  "$(TargetPath)" "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.dll" "/out:$(TargetDir)tmp\$(TargetFileName)" /internalize
+"$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe"  "$(TargetPath)" "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.dll" "/out:$(TargetDir)tmp\$(TargetFileName)"
 echo "cleanp"
 del /F "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.dll" "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.pdb" 
 del /F "$(TargetDir)$(TargetName)$(TargetExt)"

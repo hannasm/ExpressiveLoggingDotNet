@@ -1,9 +1,9 @@
 # Versioning
-This is version 0.9.2 of the expressive assertions library
+This is version 0.9.7 of the expressive assertions library
 
-This package is available from nuget at: https://www.nuget.org/packages/ExpressiveAssertions/0.9.2
+This package is available from nuget at: https://www.nuget.org/packages/ExpressiveAssertions/0.9.7
 
-The source for this release is available on github at: https://github.com/hannasm/ExpressiveAssertionsDotNet/releases/tag/0.9.2
+The source for this release is available on github at: https://github.com/hannasm/ExpressiveAssertionsDotNet/releases/tag/0.9.7
 
 # ExpressiveAssertionsDotNet
 Flexible Assertion Library Leveraging the .NET Expression Tree Syntax. This library attempts to provide a robust, open
@@ -23,6 +23,24 @@ The following native unit testing framwork implementations are currently availab
 
 * MSTest via ExpressiveAssertions.MSTest - ExpressiveAssertions.MSTest.MSTestAssertionTool
 
+# Rendering
+One of the main components that is being decoupled in this library is the rendering code. It is possible
+to customize the experience of assertion failure in a variety of ways based on the use cases you are targeting.
+In the simplest scenario one wants to throw an exception with a textual representation of an assertion
+that has failed. In more complex scenarios, it may be desilrable to render obejct graphs, transport
+assertion details to remote servers, or a variety of other interesting things.
+
+As part of this design, the work of generating a human-readable textual representation
+of an assertion is part of a separte component from the one which actually generates a 
+test-framework specific exception signaling that an assertion has failed.
+
+From a client / user perspective, a little extra work is necesarry to setup a chain of 
+renders that delivers all the desired features.
+
+When developing for this assertion library, it is necesarry to keep components stripped down to their minimum
+feature set, and plan on using multiple components, and composition, to create complete and interesting
+functionality.
+
 # Usage
 The core product is the IAssertionTool interface. Assertions are implemented through extension methods
 built around this interface. 
@@ -30,10 +48,13 @@ built around this interface.
 ```C#
 using ExpressiveAssertions;
 
-IAssertionTool assert = new ExpressiveAssertions.MSTest.MSTestAssertionTool();
+IAssertionTool assert = ExpressiveAssertions.Tooling.ShortAssertionRendererTool.Create(
+	ExpressiveAssertions.MSTest.MSTestAssertionTool.Create()
+);
 ```
 
-In this case, the assertion tool is setup to use the MSTest specific implementation.
+In this case, the assertion tool is setup to use the MSTest specific implementation and also leverages the 
+built in ShortAssertionRenderer to display assertions in a user-friendly, human readable format.
 
 Fundamentally assertions are implemented on the principle of expression trees.  Any 'assertion' consists of a series of 
 instructions to access one or more pieces of memory, and to compare the actual state of that memory region to the expected values. These
@@ -42,11 +63,11 @@ fundamental assertions are exposed through overloads of the method Check().
 ```C#
 int x = 10;
 
-tool.Check(()=>x == 10); // Success Asserting v_01.x == int32_01 with 'v_01.x'= (10) and 'int32_01'= (10).
-tool.Check(()=>x == 20); // Failure Asserting v_01.x == int32_01 with 'v_01.x'= (10) and 'int32_01'= (20)
+assert.Check(()=>x == 10); // Success Asserting v_01.x == int32_01 with 'v_01.x'= (10) and 'int32_01'= (10).
+assert.Check(()=>x == 20); // Failure Asserting v_01.x == int32_01 with 'v_01.x'= (10) and 'int32_01'= (20)
 
-tool.Check(()=>x, ()=>10, (a,b)=>a==b); // Success Asserting a == b with 'a'= (10) and 'b'= (10). 
-tool.Check(()=>x, ()=>10, (a,b)=>a==b); // Failure Asserting a == b with 'a'= (10) and 'b'= (20).
+assert.Check(()=>x, ()=>10, (a,b)=>a==b); // Success Asserting a == b with 'a'= (10) and 'b'= (10). 
+assert.Check(()=>x, ()=>10, (a,b)=>a==b); // Failure Asserting a == b with 'a'= (10) and 'b'= (20).
 ```
 
 The process of communicating the outcome of a test is handled separately from the actual testing. Exacting messaging can evolve 
@@ -54,10 +75,10 @@ on an implementation by implementation basis, and be adapted to unexpected new p
 
 > It's probably worth noting at this point, that all assertions (pass or fail), are communicated to the underlying 
 > implementation, and ultimately can be provided to the testing framework. This can enable some more advanced analysis 
-> of test quality (through metrics on assertion quantity or quality). It is reccomended that implementations always provide 
+> of test quality (through gathering metrics on assertion quantity or quality). It is reccomended that implementations always provide 
 > some mechanism for displaying the successful assertions, along with those that fail.
 
-The Check() and Assert() methods on the IAssertionTool makeup the entirety of the core assertion functionality. 
+The Check() method overloadss on the IAssertionTool makeup the entirety of the core assertion functionality. 
 Everything else is syntactic sugar for calling into these methods.
 
 The set of built-in assertions includes most of those exposed by the MSTEst assertion library. Some additional assertions
@@ -91,6 +112,7 @@ This test eventually fails on the third element, because 2 is not a multiple of 
 
 > 'Depth 1 - index' with value '2'.
 
+This indicates at scope depth of 1, there is a context field defined called index, with the value 2. 
 This kind of context information greatly simplifies tracking down issues on failed tests without needing to employ debuggers or
 replay code.
 
@@ -108,8 +130,8 @@ the different checks that were made while coming to such a conclusion.
 
 
 # Tests
-At the current time, most of the unit tests are intentionally failing in this project, by the nature of wanting to assert
-that the assertion code is behaving correctly. A more comprehensive test suite is expected at some point down the road though.
+There is currently a very minimal collection of unit tests available. A more robust test suite is a pre-condition for this project
+reaching it's 1.0.0 version release.
 
 # Build Notes
 The build for this project depends on ILMerge, and embeds several other assemblies using the /internalize flag. The 
@@ -129,6 +151,28 @@ This code is released on under an MIT license.
 This code uses parts of ExpressionToCode which is licensed under the Apache license. A copy of this license is included.
 
 # Changelog
+
+## 0.9.7
+    * 0.9.7 - addition of AssertionInverterTool to treat all success as failure and all failure as success
+	* 0.9.7 - addition of IgnoreDeclaredFailureAssertionTool which will ignore any declared failure assertions
+	* 0.9.7 - addition of IgnoreInconclsuiveAssertionTool which will ignore any inconclusive assertions
+
+## 0.9.6
+    * 0.9.6 - fix bug with mstest handling of assertion messages
+
+## 0.9.5
+    * 0.9.5 - fix bug in short assertion renderer causing all failed assertions to be marked as success
+
+## 0.9.4
+    * 0.9.4 - fixed another nuget packaging bug
+
+## 0.9.3
+    * 0.9.3 - added some tests on the base assertions
+    * 0.9.3 - refactored a number of specialized / internally focused classes to separate namespaces to limit clutter in the primary namespace
+    * 0.9.3 - cleaned up some documentation in README.md
+    * 0.9.3 - nuget package now qualifies the readme as README_ExpressiveAssertions.md instead of just README.md
+    * 0.9.3 - MSTest assertion no longer renders assertions automatically, you must specifically chain it with a renderer assertion (such as the builtin ShortAssertionRendererTool)
+
 ## 0.9.2
   * better error reporting in the mstest driver
   * started removing code contracts stuff because they don't report error messages the way i want
@@ -142,6 +186,7 @@ This code uses parts of ExpressionToCode which is licensed under the Apache lice
   * new assertions for Throws()
   * add SoftAssertionTool
   * unit testing for assertion context code
+
 ## 0.9.1
   * adding license files to nuget packages
 
