@@ -72,7 +72,7 @@ namespace ExpressiveLogging.BufferLogging
         {
             int oldCount = count;
             Action<ILogStream> nextAction;
-            while (_messageQueue.TryDequeue(out nextAction) && count > 0)
+            while (count > 0 && _messageQueue.TryDequeue(out nextAction))
             {
                 nextAction(log);
                 count -= 1;
