@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>ExpressiveLogging</id>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <authors>hannasm</authors>
     <owners>hannasm</owners>
     <licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotNet/blob/master/LICENSE.md</licenseUrl>
@@ -10,6 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Flexible logging framework based on lambdas and expression trees</description>
     <releaseNotes>
+    * 1.1.0 - addition of some extension methods (in root ExpressiveLogging.~version~ namespace) to assist in performance counter development
     * 1.0.3 - Fix: Buffering logger was popping an extra record on every ExecuteBuffer that didn't empty the queue completely
     * 1.0.2 - AssertableLogStream had some bugs that made it unusable, fixed those and tested this code thoroughly
     * 1.0.1 - fix for issue with assembly refactoring script, that caused corrupted dll (assembly bind failures)

@@ -1,5 +1,5 @@
 param ($solutionDir);
-
+$scriptPath = split-path $SCRIPT:MyInvocation.MyCommand.Path -parent;
 $metadataPath = join-path $solutionDir 'metadata.xml';
 if (!(test-path $metadataPath)) {
 	throw ('unable to find solution metadata at ' + $metadataPath);

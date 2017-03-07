@@ -1,10 +1,11 @@
 # Versioning
-This is version 1.0.3 of the expressive logging library
+This is version 1.1.0 of the expressive logging library
 
-The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/1.0.3
-The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/1.0.3
+The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/1.1.0
 
-The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/1.0.3
+The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/1.1.0
+
+The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/1.1.0
 
 # About
 The expressive logging project attempts to provide a robust logging framework that leverages lambda expressions to provide
@@ -503,6 +504,9 @@ You can always build these assemblies from source if this is a big issue
 This code is released under an MIT license. 
 
 # Changelog
+## 1.1.0
+  * 1.1.0 - addition of some extension methods (in root ExpressiveLogging.~version~ namespace) to assist in performance counter development
+
 ## 1.0.3
   * 1.0.3 - Fix: Buffering logger was popping an extra record on every ExecuteBuffer that didn't empty the queue completely
   

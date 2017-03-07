@@ -77,8 +77,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(SolutionDir)UpdateNugetPackageIfNeeded.ps1  '$(SolutionDir)' '$(ProjectDir)'"
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)tmp"

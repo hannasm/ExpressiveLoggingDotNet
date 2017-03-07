@@ -135,8 +135,8 @@ rmdir "$(TargetDir)tmp"
 powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(ProjectDir)RefactorAssembly.ps1 '$(TargetDir)' '$(SolutionDir)'"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(SolutionDir)UpdateNugetPackageIfNeeded.ps1  '$(SolutionDir)' '$(ProjectDir)'"
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

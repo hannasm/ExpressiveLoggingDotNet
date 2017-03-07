@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressiveLogging", "ExpressiveLogging\ExpressiveLogging.csproj", "{92FF80E2-F3D5-45B4-B3DF-B196DA9E772B}"
 EndProject
@@ -28,13 +28,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{29B4280F-491A-49FE-A3D3-32729600AFBD}"
 	ProjectSection(SolutionItems) = preProject
 		BumpVersionInstructions.md = BumpVersionInstructions.md
-		GenerateAssemblyInfo.ps1 = GenerateAssemblyInfo.ps1
-		GenerateNugetPackages.ps1 = GenerateNugetPackages.ps1
 		LICENSE.md = LICENSE.md
 		metadata.xml = metadata.xml
-		PublishNugetPackages.ps1 = PublishNugetPackages.ps1
 		README.md = README.md
-		UpdateNugetPackageIfNeeded.ps1 = UpdateNugetPackageIfNeeded.ps1
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressiveLogging.Merged", "ExpressiveLogging.Merged\ExpressiveLogging.Merged.csproj", "{9A165757-B3D6-4BA3-A56F-A9FA3CC6A3EE}"
@@ -42,6 +39,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressiveLogging.PowershellV5Logging", "ExpressiveLogging.PowershellV5Logging\ExpressiveLogging.PowershellV5Logging.csproj", "{1C5C0245-2EC2-48ED-B8B8-89B0912B8697}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressiveLogging.Tests", "ExpressiveLogging.Tests\ExpressiveLogging.Tests.csproj", "{88A850DD-FFCC-42BC-B6A8-EF628DEC97E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "packaging", "packaging\packaging.csproj", "{ABE0D484-A485-4D1D-BA6F-3695D5750BB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +104,10 @@ Global
 		{88A850DD-FFCC-42BC-B6A8-EF628DEC97E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88A850DD-FFCC-42BC-B6A8-EF628DEC97E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88A850DD-FFCC-42BC-B6A8-EF628DEC97E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE0D484-A485-4D1D-BA6F-3695D5750BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE0D484-A485-4D1D-BA6F-3695D5750BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE0D484-A485-4D1D-BA6F-3695D5750BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE0D484-A485-4D1D-BA6F-3695D5750BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

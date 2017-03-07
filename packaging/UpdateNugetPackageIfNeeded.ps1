@@ -1,11 +1,11 @@
-param ($solutionDir, $projectDir);
+param ($metadataPath, $nuspec);
+$scriptPath = split-path $SCRIPT:MyInvocation.MyCommand.Path -parent;
 
-$metadataPath = join-path $solutionDir 'metadata.xml';
 if (!(test-path $metadataPath)) {
 	throw ('unable to find solution metadata at ' + $metadataPath);
 }
-$sai = join-path $projectDir 'Package.nuspec';
 
+$sai = $nuspec;
 if (!(test-path $sai)) {
 	throw ('unable to update nuget package version ' + $sai + ' because it does not exist');
 }
