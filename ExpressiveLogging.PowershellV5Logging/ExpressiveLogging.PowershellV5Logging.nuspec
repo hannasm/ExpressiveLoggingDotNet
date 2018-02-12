@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<package >
+<metadata>
+<id>ExpressiveLogging.PowershellV5Logging</id>
+<authors>hannasm</authors>
+<owners>hannasm</owners>
+<licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotnet/blob/master/LICENSE.md</licenseUrl>
+<projectUrl>https://github.com/hannasm/ExpressiveLoggingDotnet</projectUrl>
+<requireLicenseAcceptance>false</requireLicenseAcceptance>
+<description>Flexible logging framework based on lambdas and expression trees</description>
+<copyright>Copyright 2015-2018</copyright>
+<version>
+2.0.0
+</version>
+<releaseNotes>
+* 2.0.0 - update to project to target .NET Standard 2.0
+* 1.1.0 - addition of some extension methods (in root ExpressiveLogging.~version~ namespace) to assist in performance counter development
+* 1.0.3 - Fix: Buffering logger was popping an extra record on every ExecuteBuffer that didn't empty the queue completely
+* 1.0.2 - AssertableLogStream had some bugs that made it unusable, fixed those and tested this code thoroughly
+* 1.0.1 - fix for issue with assembly refactoring script, that caused corrupted dll (assembly bind failures)
+* 1.0.0 - This is the first release and includes all sorts of new code
+* 1.0.0 - there has been minimal testing
+* 1.0.0 - There are all sorts of things that should still be added to this library that aren't there yet
+</releaseNotes>
+<dependencies>
+<group>
+<dependency id="ExpressiveLogging" version="[2.0,3.0)" />
+<dependency id="Microsoft.PowerShell.5.ReferenceAssemblies" version="[1.0,2.0)" />
+</group>
+</dependencies>
+</metadata>
+<files>
+<file src="../readme.md" target="content/README_ExpressiveLogging.md" />
+<file src="../LICENSE.md" target="content/LICENSE_ExpressiveLogging.md" />
+<file src="bin/Release/netstandard2.0/*.dll" target="lib/netstandard2.0" />
+<file src="bin/Release/netstandard2.0/*.pdb" target="lib/netstandard2.0" />
+<file src="bin/Release/netstandard2.0/*.xml" target="lib/netstandard2.0" />
+</files>
+</package>
+<!-- vim: set expandtab ts=2 sw=2:  -->

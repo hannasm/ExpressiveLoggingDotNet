@@ -1,0 +1,7 @@
+    <authors>hannasm</authors>
+    <owners>hannasm</owners>
+	  <licenseUrl>https://github.com/hannasm/ExpressiveLoggingDotnet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/hannasm/ExpressiveLoggingDotnet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Flexible logging framework based on lambdas and expression trees</description>
+    <copyright>Copyright 2015-2018</copyright>

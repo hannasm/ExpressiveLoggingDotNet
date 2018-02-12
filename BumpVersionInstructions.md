@@ -1,12 +1,9 @@
 * Update README text to indicate current version
 * Update Nuget Package Link in README.md
 * Update source tag link in README.md
-* Update Changelog at bottom of REAMDE.md
-* Update Version Number in metadata.xml
-* Update release notes in metadata.xml
-* run './GenerateNugetPackages.ps1' from nuget package manager console inside visual studio (uses ENV.DTE stuff to build)
-  * This will update / create SharedAssemblyInfo.cs
-  * This will update nuspec files with versioning info from metadata
-* commit to git with all the auto generated files
-* run './PublishNugetPackages.ps1' from nuget package manager console inside visual studio (uses ENV.DTE stuff to build)
+* Update version number in ExpressiveLogging.VersionNumber.md
+* Update release notes in ExpressiveLogging.ReleaseNotes.md
+* run dotnet pack -c release to build and generate all files
+* commit to git with all the auto generated files included
+* run dotnet publish... to push to nuget.org
 * create tag for release on github

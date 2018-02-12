@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#if ASYNC_LOCAL
+using CallContext = ExpressiveLogging.Context.CallContextStore;
+#else
 using System.Runtime.Remoting.Messaging;
+#endif
 
 namespace ExpressiveLogging.Context
 {
@@ -12,8 +17,8 @@ namespace ExpressiveLogging.Context
     /// </summary>
     public class CallContextSet<T>
     {
-        private string _name;
         private string _dataKeyName;
+        private string _name;
         public CallContextSet(string name)
         {
             _name = name;

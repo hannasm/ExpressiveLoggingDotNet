@@ -1,0 +1,16 @@
+     <dependencies>
+      <group>
+        <dependency id="ExpressiveLogging" version="[2.0,3.0)" />
+        <dependency id="Microsoft.PowerShell.5.ReferenceAssemblies" version="[1.0,2.0)" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\readme.md" target="content\README_ExpressiveLogging.md" />
+    <file src="..\LICENSE.md" target="content\LICENSE_ExpressiveLogging.md" />
+    <file src="bin\Release\netstandard2.0\*.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\*.pdb" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\*.xml" target="lib\netstandard2.0" />
+  </files>
+</package>
+<!-- vim: set expandtab ts=2 sw=2:  -->

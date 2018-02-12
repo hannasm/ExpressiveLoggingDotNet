@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Xml;
+
+#if ASYNC_LOCAL
+using CallContext = ExpressiveLogging.Context.CallContextStore;
+#else
+using System.Runtime.Remoting.Messaging;
+#endif
+
 
 namespace ExpressiveLogging.Context
 {

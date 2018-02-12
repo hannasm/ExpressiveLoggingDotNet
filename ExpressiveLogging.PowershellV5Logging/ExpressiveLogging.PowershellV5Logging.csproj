@@ -1,104 +1,86 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C5C0245-2EC2-48ED-B8B8-89B0912B8697}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExpressiveLogging.PowershellV5Logging</RootNamespace>
-    <AssemblyName>ExpressiveLogging.PowershellV5Logging</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AssemblyRefactoring, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AssemblyRefactoring.1.0.0\lib\AssemblyRefactoring.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExpressiveLogging.PowershellV5.RunspaceLogging\ExpressiveLogging.PowershellV5.RunspaceLogging.csproj">
-      <Project>{83c12c41-c1b3-424e-8e0b-7cd43b7538f1}</Project>
-      <Name>ExpressiveLogging.PowershellV5.RunspaceLogging</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE.md" />
-    <None Include="Package.nuspec" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
-    <None Include="RefactorAssembly.ps1" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <DefineConstants>$(DefineConstants);EXPRESSIVE_LOGGING_ASSEMBLY;ASYNC_LOCAL</DefineConstants>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)tmp"
-echo "run ilmerge"
-"$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe"  "$(TargetPath)" "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.dll" "/out:$(TargetDir)tmp\$(TargetFileName)"
-echo "cleanp"
-del /F "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.dll" "$(TargetDir)ExpressiveLogging.PowershellV5.RunspaceLogging.pdb" 
-del /F "$(TargetDir)$(TargetName)$(TargetExt)"
-del /F "$(TargetDir)$(TargetName).pdb"
-move "$(TargetDir)tmp\$(TargetName)$(TargetExt)" "$(TargetDir)$(TargetName)$(TargetExt)"
-move "$(TargetDir)tmp\$(TargetName).pdb" "$(TargetDir)$(TargetName).pdb"
-rmdir "$(TargetDir)tmp"
-powershell -NoLogo -NonInteractive -ExecutionPolicy Unrestricted -Command "$(ProjectDir)RefactorAssembly.ps1 '$(TargetDir)' '$(SolutionDir)'"
-</PostBuildEvent>
+    <!-- We do not use the auto-generated nuspec files feature, instead see build task below -->
+    <NuspecFile>ExpressiveLogging.PowershellV5Logging.nuspec</NuspecFile>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <PropertyGroup>
+    <!-- We do use the auto-generated assembly info, but version number is pulled in from GetProjectProps build task below -->
+    <AssemblyTitle>ExpressiveLogging.PowershellV5Logging</AssemblyTitle>
+    <AssemblyProduct>ExpressiveLogging.PowershellV5Logging</AssemblyProduct>
+    <Company>Resonance Development</Company>
+    <Description>Library Extension for powershell logging with expressive syntax</Description>
+  </PropertyGroup>
+  <!-- load version number and populate properties needed for generating assemblyInfo and nuspec -->
+  <Target Name="GetProjectProps" BeforeTargets="GetAssemblyVersion">
+    <Message Text="... Compilation For Framework $(TargetFramework)" Importance="High" />
+    <Message Text="... Generating Assembly Version" Importance="High" />
+    <ReadLinesFromFile File="../ExpressiveLogging.VersionNumber.md">
+      <Output TaskParameter="Lines" ItemName="CommonVersion" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <Version>@(CommonVersion)</Version>
+      <FileVersion>@(CommonVersion)</FileVersion>
+      <AssemblyVersion>@(CommonVersion)</AssemblyVersion>
+    </PropertyGroup>
+    <Message Text="... Generated Assembly Version $(Version)" Importance="High" />
   </Target>
-  <Target Name="AfterBuild">
+  <Target Name="GeneratePPs" BeforeTargets="Build">
+    <Message Text="... Generating Nuspec" Importance="High" />
+    <ReadLinesFromFile File="ExpressiveLogging.PowershellV5Logging.nuspec.header">
+      <Output TaskParameter="Lines" ItemName="NuspecHeader" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="ExpressiveLogging.PowershellV5Logging.nuspec.footer">
+      <Output TaskParameter="Lines" ItemName="NuspecFooter" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="../ExpressiveLogging.VersionNumber.md">
+      <Output TaskParameter="Lines" ItemName="CommonVersion" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="../ExpressiveLogging.CommonNugetProperties.xml">
+      <Output TaskParameter="Lines" ItemName="NuspecCommonProperties" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="../ExpressiveLogging.ReleaseNotes.md">
+      <Output TaskParameter="Lines" ItemName="CommonReleaseNotes" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <CommonReleaseNotesToEncode>@(CommonReleaseNotes->'%(Identity)', '%0a')</CommonReleaseNotesToEncode>
+      <CommonReleaseNotesEncoded>
+        $(CommonReleaseNotesToEncode.Replace('&amp;', '&amp;amp;').Replace('&lt;', '&amp;lt;').Replace('&gt;', '&amp;gt;'))
+      </CommonReleaseNotesEncoded>
+    </PropertyGroup>
+    <CreateProperty Value="&lt;version&gt;">
+      <Output TaskParameter="Value" PropertyName="NuspecVersionPrefix" />
+    </CreateProperty>
+    <CreateProperty Value="&lt;/version&gt;">
+      <Output TaskParameter="Value" PropertyName="NuspecVersionSuffix" />
+    </CreateProperty>
+    <CreateProperty Value="&lt;releaseNotes&gt;">
+      <Output TaskParameter="Value" PropertyName="NuspecReleaseNotesPrefix" />
+    </CreateProperty>
+    <CreateProperty Value="&lt;/releaseNotes&gt;">
+      <Output TaskParameter="Value" PropertyName="NuspecReleaseNotesSuffix" />
+    </CreateProperty>
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="@(NuspecHeader)" Overwrite="true" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="@(NuspecCommonProperties)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="$(NuspecVersionPrefix)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="@(CommonVersion)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="$(NuspecVersionSuffix)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="$(NuspecReleaseNotesPrefix)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="$(CommonReleaseNotesEncoded)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="$(NuspecReleaseNotesSuffix)" Overwrite="false" Encoding="UTF-8" />
+    <WriteLinesToFile File="ExpressiveLogging.PowershellV5Logging.nuspec" Lines="@(NuspecFooter)" Overwrite="false" Encoding="UTF-8" />
+    <Message Text="... Generated Nuspec" Importance="High" />
   </Target>
-  -->
+  <ItemGroup>
+    <None Include="ExpressiveLogging.PowershellV5Logging.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressiveLogging\ExpressiveLogging.csproj" />
+  </ItemGroup>
 </Project>
