@@ -1,11 +1,11 @@
 # Versioning
-This is version 2.0.0 of the expressive logging library
+This is version 2.0.1 of the expressive logging library
 
-The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/2.0.0
+The base package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging/2.0.1
 
-The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/2.0.0
+The powershell V5 package is available from nuget at: https://www.nuget.org/packages/ExpressiveLogging.PowershellV5Logging/2.0.1
 
-The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/2.0.0
+The source for this release is available on github at: https://github.com/hannasm/ExpressiveLoggingDotNet/releases/tag/2.0.1
 
 # About
 The expressive logging project attempts to provide a robust logging framework that leverages lambda expressions to provide

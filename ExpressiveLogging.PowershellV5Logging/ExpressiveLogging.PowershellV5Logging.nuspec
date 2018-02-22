@@ -10,9 +10,10 @@
 <description>Flexible logging framework based on lambdas and expression trees</description>
 <copyright>Copyright 2015-2018</copyright>
 <version>
-2.0.0
+2.0.1
 </version>
 <releaseNotes>
+* 2.0.1 - rename namespace bufferlogging to bufferedlogging
 * 2.0.0 - update to project to target .NET Standard 2.0
 * 1.1.0 - addition of some extension methods (in root ExpressiveLogging.~version~ namespace) to assist in performance counter development
 * 1.0.3 - Fix: Buffering logger was popping an extra record on every ExecuteBuffer that didn't empty the queue completely

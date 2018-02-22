@@ -1,4 +1,5 @@
-		* 2.0.0 - update to project to target .NET Standard 2.0
+		* 2.0.1 - rename namespace bufferlogging to bufferedlogging
+    * 2.0.0 - update to project to target .NET Standard 2.0
     * 1.1.0 - addition of some extension methods (in root ExpressiveLogging.~version~ namespace) to assist in performance counter development
     * 1.0.3 - Fix: Buffering logger was popping an extra record on every ExecuteBuffer that didn't empty the queue completely
     * 1.0.2 - AssertableLogStream had some bugs that made it unusable, fixed those and tested this code thoroughly
