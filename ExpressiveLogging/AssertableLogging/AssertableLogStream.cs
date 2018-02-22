@@ -1,4 +1,4 @@
-﻿using ExpressiveLogging.BufferLogging;
+﻿using ExpressiveLogging.BufferedLogging;
 using ExpressiveLogging.Context;
 using ExpressiveLogging.Counters;
 using System;
