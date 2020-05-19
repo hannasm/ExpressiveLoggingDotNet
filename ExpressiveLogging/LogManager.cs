@@ -1,24 +1,12 @@
-﻿using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
+﻿using ExpressiveLogging.V3.Context;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
-namespace ExpressiveLogging
+namespace ExpressiveLogging.V3
 {
     public static class LogManager
     {
-        public static LogScopeBuilder BuildScope(
-            ILogToken lt,
-            Action<LogFormatMessage> beginMessage,
-            Action<LogFormatMessage> endMessage
-        )
-        {
-            return new LogScopeBuilder(lt, beginMessage, endMessage);
-        }
         public static LogScopeBuilder BuildScope(
             ILogToken lt
         )
@@ -26,27 +14,17 @@ namespace ExpressiveLogging
             return new LogScopeBuilder(lt);
         }
         public static ILogContextScope NewScope(
-            ILogStream log,
-            ILogToken lt,
-            Action<LogFormatMessage> beginMessage,
-            Action<LogFormatMessage> endMessage
-        )
-        {
-            return new LogScopeBuilder(lt, beginMessage, endMessage).NewScope(log);
-        }
-        public static ILogContextScope NewScope(
-            ILogStream log,
             ILogToken lt
         )
         {
-            return new LogScopeBuilder(lt).NewScope(log);
+            return new LogScopeBuilder(lt).NewScope();
         }
         /// <summary>
         /// Generate a proper uniqueness code for log aggregation
         /// </summary>
-        public static int GenerateUniquenessCode(Exception error, string message)
+        public static int GenerateUniquenessCode(Exception error, string message, params object[] args)
         {
-            return GenerateUniquenessCode(message) * GenerateUniquenessCode(error);
+            return GenerateUniquenessCode(message, args) ^ GenerateUniquenessCode(error);
         }
 
         /// <summary>
@@ -63,7 +41,7 @@ namespace ExpressiveLogging
         /// </summary>
         public static int GenerateUniquenessCode(string message, params object[] args)
         {
-            return string.Format(message, args).GetHashCode();
+            return message == null ? 27 : message.GetHashCode();
         }
         /// <summary>
         /// Generate a proper uniqueness code for log aggregation
@@ -95,13 +73,98 @@ namespace ExpressiveLogging
             return new LogToken(name);
         }
 
-        public static IRawCounterToken CreateRawCounterToken(string name)
+        public static ILogStreamToken GetStreamToken()
         {
-            return new RawCounterToken(name);
+            StackFrame frame = new StackFrame(1, false);
+            return new LogToken(frame.GetMethod().DeclaringType);
         }
-        public static INamedCounterToken CreateNamedCounterToken(string name)
+        public static ILogStreamToken GetStreamToken(ILogToken token, string name)
         {
-            return new NamedCounterToken(name);
+            return new LogToken(string.Concat(token.Name, ".", name));
+        }
+        public static ILogStreamToken GetStreamToken(string name)
+        {
+            return new LogToken(name);
+        }
+
+        public static ICounterToken CreateRawCounterToken(string counter)
+        {
+            return new CounterToken(counter);
+        }
+        public static INamedCounterToken CreateNamedCounterToken(string counter, ILogToken tok)
+        {
+          return CreateNamedCounterToken(counter, tok.Name);
+        }
+        public static INamedCounterToken CreateNamedCounterToken(string counter, string name)
+        {
+            return new NamedCounterToken(counter, name);
+        }
+
+        static ConditionalWeakTable<ILogStream, ILogStreamToken> _streamToken = new ConditionalWeakTable<ILogStream, ILogStreamToken>();
+        public static void AssignStreamToken(ILogStream stream, ILogStreamToken token) {
+          if (!_streamToken.TryGetValue(stream, out var theToken)) {
+            _streamToken.Add(stream, token);
+          }
+        }
+        public static ILogStreamToken GetToken(this ILogStream stream) {
+          if (!_streamToken.TryGetValue(stream, out var theToken)) {
+            return STREAM_TOKEN_UNASSIGNED;
+          }
+          return theToken;
+        }
+
+        public const string STREAM_TOKEN_UNASSIGNED_NAME = "UNASSIGNED";
+        public const string STREAM_TOKEN_ALERT_NAME = "ALERT";
+        public const string STREAM_TOKEN_ERROR_NAME = "ERROR";
+        public const string STREAM_TOKEN_WARNING_NAME = "WARNING";
+        public const string STREAM_TOKEN_AUDIT_NAME = "AUDIT";
+        public const string STREAM_TOKEN_INFO_NAME = "INFO";
+        public const string STREAM_TOKEN_DEBUG_NAME = "DEBUG";
+
+        public static readonly ILogStreamToken STREAM_TOKEN_UNASSIGNED = LogManager.GetStreamToken(STREAM_TOKEN_UNASSIGNED_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_ALERT = LogManager.GetStreamToken(STREAM_TOKEN_ALERT_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_ERROR = LogManager.GetStreamToken(STREAM_TOKEN_ERROR_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_WARNING = LogManager.GetStreamToken(STREAM_TOKEN_WARNING_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_AUDIT = LogManager.GetStreamToken(STREAM_TOKEN_AUDIT_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_INFO = LogManager.GetStreamToken(STREAM_TOKEN_INFO_NAME);
+        public static readonly ILogStreamToken STREAM_TOKEN_DEBUG = LogManager.GetStreamToken(STREAM_TOKEN_DEBUG_NAME);
+
+        public static ILogStream Alert {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_ALERT);
+          }
+        }
+        public static ILogStream Error {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_ERROR);
+          }
+        }
+        public static ILogStream Warning {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_WARNING);
+          }
+        }
+        public static ILogStream Audit {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_AUDIT);
+          }
+        }
+        public static ILogStream Info {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_INFO);
+          }
+        }
+        public static ILogStream Debug {
+          get {
+            return StaticLogRepository.GetLogger(STREAM_TOKEN_DEBUG);
+          }
+        }
+
+        static readonly IExpressiveLogs _iel = new ExpressiveLogs();
+        public static IExpressiveLogs Logs {
+          get {
+            return _iel;
+          }
         }
     }
 }

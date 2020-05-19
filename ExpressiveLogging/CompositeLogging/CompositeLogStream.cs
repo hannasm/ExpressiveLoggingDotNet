@@ -1,20 +1,21 @@
-﻿using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 
-namespace ExpressiveLogging.CompositeLogging
+namespace ExpressiveLogging.V3
 {
     public class CompositeLogStream : ILogStream
     {
-        private ILogStream[] _loggers;
+        private readonly ILogStream[] _loggers;
 
         private CompositeLogStream(params ILogStream[] loggersToCompose)
         {
             _loggers = loggersToCompose;
         }
 
+        public static ILogStream Create(IEnumerable<ILogStream> loggersToCompose) {
+          return CompositeLogStream.Create(loggersToCompose.ToArray());
+        }
         public static ILogStream Create(params ILogStream[] loggersToCompose)
         {
             if (loggersToCompose == null)
@@ -36,19 +37,7 @@ namespace ExpressiveLogging.CompositeLogging
             }
         }
         
-        private Action<LogExceptionMessage> CreateMessageClosure(Action<LogExceptionMessage> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }
-        private Action<LogFormatMessage> CreateMessageClosure(Action<LogFormatMessage> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }        
-        private Action<LogExceptionMessageWithCustomUniqueness> CreateMessageClosure(Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }
-        private Action<LogFormatMessageWithCustomUniqueness> CreateMessageClosure(Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
+        private Action<CompleteLogMessage> CreateMessageClosure(Action<CompleteLogMessage> msgBuilder)
         {
             return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
         }
@@ -57,179 +46,25 @@ namespace ExpressiveLogging.CompositeLogging
         {
             CompositeAction(l => l.OnAttachScopeParameters(lt, parameters));
         }
-
-        public void BeginScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
+        public void OnDetachScopeParameters(ILogToken lt, List<KeyValuePair<string, object>> parameters)
         {
-            CompositeAction(l => l.BeginScope(ctx, t, msgBuilder));
+            CompositeAction(l => l.OnDetachScopeParameters(lt, parameters));
         }
 
-        public void EndScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            CompositeAction(l => l.EndScope(ctx, t, msgBuilder));
-        }
-
-        public void Debug(ILogToken t, Action<LogExceptionMessage> msgBuilder)
+        public void Write(ILogToken t, Action<CompleteLogMessage> msgBuilder)
         {
             msgBuilder = CreateMessageClosure(msgBuilder);
-            CompositeAction(l => l.Debug(t, msgBuilder));
+            CompositeAction(l => l.Write(t, msgBuilder));
         }
 
-        public void Debug(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-            CompositeAction(l => l.Debug(t, msgBuilder));
-        }
-
-        public void Debug(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-            CompositeAction(l => l.Debug(t, msgBuilder));
-        }
-
-        public void Debug(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-            CompositeAction(l => l.Debug(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Info(t, msgBuilder));
-        }
-        
-
-        public void Audit(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Audit(t, msgBuilder));
-        }
-                
-        public void Warning(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Warning(t, msgBuilder));
-        }
-        
-        public void Error(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-                msgBuilder = CreateMessageClosure(msgBuilder);
-                CompositeAction(l => l.Alert(t, msgBuilder));
-        }
-        
-        public void IncrementCounterBy(IRawCounterToken ct, long value)
+        public void IncrementCounterBy(ICounterToken ct, long value)
         {
             CompositeAction(l => l.IncrementCounterBy(ct, value));
         }
         
-        public void SetCounterValue(IRawCounterToken ct, long value)
+        public void SetCounter(ICounterToken ct, long value)
         {
-            CompositeAction(l => l.SetCounterValue(ct, value));
-        }
-        
-        public void IncrementCounterBy(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            CompositeAction(l => l.IncrementCounterBy(lt, ct, value));
-        }        
-        public void SetCounterValue(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            CompositeAction(l => l.SetCounterValue(lt, ct, value));
+            CompositeAction(l => l.SetCounter(ct, value));
         }
         
         public void Dispose()

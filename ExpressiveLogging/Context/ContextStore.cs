@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Runtime.CompilerServices;
 
-namespace ExpressiveLogging.Context {
+namespace ExpressiveLogging.V3.Context {
   public static class CallContextStore {
     private static ConditionalWeakTable<string, AsyncLocal<object>> _store = new ConditionalWeakTable<string, AsyncLocal<object>>();
 

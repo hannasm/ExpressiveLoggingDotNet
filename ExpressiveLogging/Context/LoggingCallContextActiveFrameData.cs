@@ -1,6 +1,6 @@
 using System;
 
-namespace ExpressiveLogging.Context
+namespace ExpressiveLogging.V3.Context
 {
     public class LoggingCallContextActiveFrameData
     {

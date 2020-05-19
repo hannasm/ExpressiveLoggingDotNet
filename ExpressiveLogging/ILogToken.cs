@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging
+namespace ExpressiveLogging.V3
 {
     public interface ILogToken : IEquatable<ILogToken>
     {
@@ -16,5 +16,8 @@ namespace ExpressiveLogging
         /// Token name converted to a string compatible with a C# variable declaration
         /// </summary>
         string Symbol { get; }
+    }
+    public interface ILogStreamToken : ILogToken
+    {
     }
 }

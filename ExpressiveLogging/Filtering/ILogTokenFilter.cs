@@ -1,36 +1,20 @@
-﻿using ExpressiveLogging.Counters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.Filtering
+namespace ExpressiveLogging.V3
 {
     public interface ILogTokenFilter
     {
-        bool IsDebugEnabled(ILogToken lt);
-        bool IsDebugConfigured();
+        bool IsWriteEnabled(ILogToken lt);
+        bool IsWriteConfigured();
 
-        bool IsInfoEnabled(ILogToken lt);
-        bool IsInfoConfigured();
-
-        bool IsAuditEnabled(ILogToken lt);
-        bool IsAuditConfigured();
-
-        bool IsWarningEnabled(ILogToken lt);
-        bool IsWarningConfigured();
-
-        bool IsErrorEnabled(ILogToken lt);
-        bool IsErrorConfigured();
-
-        bool IsAlertEnabled(ILogToken lt);
-        bool IsAlertConfigured();
-
-        bool IsCounterEnabled(IRawCounterToken ct);
+        bool IsCounterEnabled(ICounterToken ct);
         bool IsRawCounterConfigured();
 
-        bool IsCounterEnabled(ILogToken lt, INamedCounterToken ct);
+        bool IsCounterEnabled(INamedCounterToken ct, ILogToken lt);
         bool IsNamedCounterConfigured();
     }
 }

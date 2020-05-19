@@ -1,9 +1,7 @@
-﻿using ExpressiveLogging.Counters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
-namespace ExpressiveLogging.Filtering
+namespace ExpressiveLogging.V3.Filtering
 {
     public class CompositeFilterToken : ILogTokenFilter
     {
@@ -34,61 +32,16 @@ namespace ExpressiveLogging.Filtering
             _filters.RemoveWhere(filters.Contains);
         }
 
-        public bool IsDebugEnabled(ILogToken lt)
+        public bool IsWriteEnabled(ILogToken lt)
         {
             foreach (var filter in _filters)
             {
-                if (!filter.IsDebugEnabled(lt)) { return false; }
+                if (!filter.IsWriteEnabled(lt)) { return false; }
             }
             return true;
         }
 
-        public bool IsInfoEnabled(ILogToken lt)
-        {
-            foreach (var filter in _filters)
-            {
-                if (!filter.IsInfoEnabled(lt)) { return false; }
-            }
-            return true;
-        }
-
-        public bool IsAuditEnabled(ILogToken lt)
-        {
-            foreach (var filter in _filters)
-            {
-                if (!filter.IsAuditEnabled(lt)) { return false; }
-            }
-            return true;
-        }
-
-        public bool IsWarningEnabled(ILogToken lt)
-        {
-            foreach (var filter in _filters)
-            {
-                if (!filter.IsWarningEnabled(lt)) { return false; }
-            }
-            return true;
-        }
-
-        public bool IsErrorEnabled(ILogToken lt)
-        {
-            foreach (var filter in _filters)
-            {
-                if (!filter.IsErrorEnabled(lt)) { return false; }
-            }
-            return true;
-        }
-
-        public bool IsAlertEnabled(ILogToken lt)
-        {
-            foreach (var filter in _filters)
-            {
-                if (!filter.IsAlertEnabled(lt)) { return false; }
-            }
-            return true;
-        }
-
-        public bool IsCounterEnabled(IRawCounterToken ct)
+        public bool IsCounterEnabled(ICounterToken ct)
         {
             foreach (var filter in _filters)
             {
@@ -97,43 +50,18 @@ namespace ExpressiveLogging.Filtering
             return true;
         }
 
-        public bool IsCounterEnabled(ILogToken lt, INamedCounterToken ct)
+        public bool IsCounterEnabled(INamedCounterToken ct, ILogToken lt)
         {
             foreach (var filter in _filters)
             {
-                if (!filter.IsCounterEnabled(lt, ct)) { return false; }
+                if (!filter.IsCounterEnabled(ct, lt)) { return false; }
             }
             return true;
         }
 
-        public bool IsDebugConfigured()
+        public bool IsWriteConfigured()
         {
-            return _filters.Any(f => f.IsDebugConfigured());
-        }
-
-        public bool IsInfoConfigured()
-        {
-            return _filters.Any(f => f.IsInfoConfigured());
-        }
-
-        public bool IsAuditConfigured()
-        {
-            return _filters.Any(f => f.IsAuditConfigured());
-        }
-
-        public bool IsWarningConfigured()
-        {
-            return _filters.Any(f => f.IsWarningConfigured());
-        }
-
-        public bool IsErrorConfigured()
-        {
-            return _filters.Any(f => f.IsErrorConfigured());
-        }
-
-        public bool IsAlertConfigured()
-        {
-            return _filters.Any(f => f.IsAlertConfigured());
+            return _filters.Any(f => f.IsWriteConfigured());
         }
 
         public bool IsRawCounterConfigured()

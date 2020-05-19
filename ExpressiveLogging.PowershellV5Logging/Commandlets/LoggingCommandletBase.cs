@@ -1,13 +1,11 @@
-﻿using ExpressiveLogging.CompositeLogging;
-using ExpressiveLogging.StreamFormatters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.PowershellV5Logging.Commandlets
+namespace ExpressiveLogging.V3.PowershellV5Logging.Commandlets
 {
     public abstract class LoggingCommandletBase : PSCmdlet
     {
@@ -29,38 +27,14 @@ namespace ExpressiveLogging.PowershellV5Logging.Commandlets
         [Parameter(Mandatory = false)]
         public ILogStream StreamTo;
 
-        protected virtual ILogStream GetLogger()
-        {
-            List<ILogStream> results = new List<ILogStream>(); 
-            
-            results.Add(new ExceptionFormatterLogStream(
-                        new DefaultTextLogStreamFormatter(
-                            new CmdletLogStream(this)
-            )));
-
-            var globalStream = this.GetVariableValue("ExpressiveStreamTo");
-            if (globalStream != null && globalStream is ILogStream)
-            {
-                results.Add((ILogStream)globalStream);
-            }
-
-            if (StreamTo != null)
-            {
-                results.Add(StreamTo);
-            }
-
-            if (results.Count > 1)
-            {
-                return CompositeLogStream.Create(results.ToArray());
-            }
-            else
-            {
-                return results[0];
-            }
-        }
+        protected abstract ILogStream GetLogger();
         protected abstract ILogToken GetDefaultLogToken();
-        protected abstract void WriteMessage(ILogStream log, ILogToken token);
 
+        PowershellLoggingInit _init;
+        protected override void BeginProcessing() {
+          base.BeginProcessing();
+          _init = new PowershellLoggingInit(this);
+        }
         protected override void EndProcessing()
         {
             ILogToken token;
@@ -85,7 +59,10 @@ namespace ExpressiveLogging.PowershellV5Logging.Commandlets
             Format = new[] { Message };
             Message = "{0}";
 
-            WriteMessage(GetLogger(), token);
+            GetLogger().Write(token, m=>m(Exception, UniquenessCode, Message, Format));
+
+            _init = new PowershellLoggingInit(this);
+            base.EndProcessing();
         }
     }
 }

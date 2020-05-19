@@ -1,12 +1,12 @@
 using System;
 
 #if ASYNC_LOCAL
-using CallContext = ExpressiveLogging.Context.CallContextStore;
+using CallContext = ExpressiveLogging.V3.Context.CallContextStore;
 #else 
 using System.Runtime.Remoting.Messaging;
 #endif
 
-namespace ExpressiveLogging.Context
+namespace ExpressiveLogging.V3.Context
 {
     /// <summary>
     /// Implements basic dictionary functionality that uses the CallContext

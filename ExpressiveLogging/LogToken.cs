@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging
+namespace ExpressiveLogging.V3
 {
-    class LogToken : ILogToken
+    class LogToken : ILogStreamToken
     {
         internal LogToken(Type t)
         {

@@ -5,13 +5,13 @@ using System.Text;
 using System.Xml;
 
 #if ASYNC_LOCAL
-using CallContext = ExpressiveLogging.Context.CallContextStore;
+using CallContext = ExpressiveLogging.V3.Context.CallContextStore;
 #else
 using System.Runtime.Remoting.Messaging;
 #endif
 
 
-namespace ExpressiveLogging.Context
+namespace ExpressiveLogging.V3.Context
 {
     public static class LoggingCallContextStore
     {

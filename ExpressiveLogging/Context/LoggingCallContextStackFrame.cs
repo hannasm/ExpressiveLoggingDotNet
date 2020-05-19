@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExpressiveLogging.Context
+namespace ExpressiveLogging.V3.Context
 {
     public class LoggingCallContextStackFrame
     {

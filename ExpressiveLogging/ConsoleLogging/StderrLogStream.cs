@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.ConsoleLogging
+namespace ExpressiveLogging.V3
 {
-    public class StderrLogStream : TextWriterLogging.TextWriterLogStream
+    public class StderrLogStream : TextWriterLogStream
     {
         public StderrLogStream() : base(System.Console.Error)
         { }

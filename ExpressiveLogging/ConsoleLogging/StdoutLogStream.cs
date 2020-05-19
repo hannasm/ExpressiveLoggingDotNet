@@ -1,16 +1,15 @@
-﻿using ExpressiveLogging;
+﻿using ExpressiveLogging.V3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
+using ExpressiveLogging.V3.Context;
 using System.Diagnostics;
 
-namespace ExpressiveLogging.ConsoleLogging
+namespace ExpressiveLogging.V3
 {
-    public class StdoutLogStream : TextWriterLogging.TextWriterLogStream
+    public class StdoutLogStream : TextWriterLogStream
     {
         public StdoutLogStream() 
             : base(System.Console.Out)

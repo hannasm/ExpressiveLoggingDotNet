@@ -1,6 +1,4 @@
-﻿using ExpressiveLogging.BufferedLogging;
-using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
+﻿using ExpressiveLogging.V3.Context;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,9 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ExpressiveLogging.AssertableLogging.AssertionLogStream;
+using static ExpressiveLogging.V3.AssertionLogStream;
 
-namespace ExpressiveLogging.AssertableLogging
+namespace ExpressiveLogging.V3
 {
     public class AssertableLogStream : BufferedLogStream
     {
@@ -29,35 +27,19 @@ namespace ExpressiveLogging.AssertableLogging
             ExecuteAssert(new AssertionLogStream(message, onError ?? _onAssertFailure));
         }
 
-        public void AssertBeginScope(BeginScopeAssertion scope)
-        {
-            AssertBeginScope(scope, null);
-        }
-        public void AssertBeginScope(BeginScopeAssertion scope, Action onError)
-        {
-            ExecuteAssert(new AssertionLogStream(scope, onError ?? _onAssertFailure));
-        }
-        public void AssertEndScope(EndScopeAssertion scope)
-        {
-            AssertEndScope(scope, null);
-        }
-        public void AssertEndScope(EndScopeAssertion scope, Action onError)
-        {
-            ExecuteAssert(new AssertionLogStream(scope, onError ?? _onAssertFailure));
-        }
-        public void AssertIncrementRawCounter(RawCounterAssertion increment)
+        public void AssertIncrementRawCounter(CounterAssertion increment)
         {
             AssertIncrementRawCounter(increment, null);
         }
-        public void AssertIncrementRawCounter(RawCounterAssertion increment, Action onError)
+        public void AssertIncrementRawCounter(CounterAssertion increment, Action onError)
         {
             ExecuteAssert(new AssertionLogStream(increment, null, onError ?? _onAssertFailure));
         }
-        public void AssertSetRawCounter(RawCounterAssertion set)
+        public void AssertSetRawCounter(CounterAssertion set)
         {
             AssertSetRawCounter(set, null);
         }
-        public void AssertSetRawCounter(RawCounterAssertion set, Action onError)
+        public void AssertSetRawCounter(CounterAssertion set, Action onError)
         {
             ExecuteAssert(new AssertionLogStream(null, set, onError ?? _onAssertFailure));
 

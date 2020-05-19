@@ -1,12 +1,11 @@
-﻿using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
+﻿using ExpressiveLogging.V3.Context;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ExpressiveLogging.BufferedLogging
+namespace ExpressiveLogging.V3
 {
     /// <summary>
     /// Buffers all logging actions as they are executed,
@@ -21,19 +20,7 @@ namespace ExpressiveLogging.BufferedLogging
         {
         }
 
-        private Action<LogExceptionMessage> CreateMessageClosure(Action<LogExceptionMessage> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }
-        private Action<LogFormatMessage> CreateMessageClosure(Action<LogFormatMessage> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }
-        private Action<LogExceptionMessageWithCustomUniqueness> CreateMessageClosure(Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
-        }
-        private Action<LogFormatMessageWithCustomUniqueness> CreateMessageClosure(Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
+        private Action<CompleteLogMessage> CreateMessageClosure(Action<CompleteLogMessage> msgBuilder)
         {
             return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
         }
@@ -59,7 +46,7 @@ namespace ExpressiveLogging.BufferedLogging
 
             if (timer.Elapsed > timeout)
             {
-                log.Warning(_lt, m => m("Timeout exceeded while executing buffer"));
+                LogManager.Warning.Write(_lt, m => m("Timeout exceeded while executing buffer"));
                 return false;
             }
             else
@@ -71,7 +58,7 @@ namespace ExpressiveLogging.BufferedLogging
         public int ExecuteBuffer(ILogStream log, int count)
         {
             int oldCount = count;
-            Action<ILogStream> nextAction;
+            Action<ILogStream> nextAction; 
             while (count > 0 && _messageQueue.TryDequeue(out nextAction))
             {
                 nextAction(log);
@@ -119,206 +106,24 @@ namespace ExpressiveLogging.BufferedLogging
             // scope parameters to each BufferedAction() closure
             parameters.Add(new KeyValuePair<string, object>(BUFFERED_LOGTOKEN_KEY, lt.Name));
         }
-        public void BeginScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
+        public void OnDetachScopeParameters(ILogToken lt, List<KeyValuePair<string, object>> parameters)
         {
-            var cls = CreateMessageClosure(msgBuilder);
-
-            BufferedAction((l,c) => l.BeginScope(c, t, msgBuilder));
-        }
-        public void EndScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            var cls = CreateMessageClosure(msgBuilder);
-
-            BufferedAction((l, c) => l.EndScope(c, t, msgBuilder));
         }
         
-        public void Debug(ILogToken t, Action<LogExceptionMessage> msgBuilder)
+        public void Write(ILogToken t, Action<CompleteLogMessage> msgBuilder)
         {
             msgBuilder = CreateMessageClosure(msgBuilder);
 
-            BufferedAction(l => l.Debug(t, msgBuilder));
+            BufferedAction(l => l.Write(t, msgBuilder));
         }
 
-        public void Debug(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Debug(t, msgBuilder));
-        }
-
-        public void Debug(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Debug(t, msgBuilder));
-        }
-
-        public void Debug(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Debug(t, msgBuilder));
-        }
-        
-        
-        public void Info(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Info(t, msgBuilder));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Info(t, msgBuilder));
-        }
-        
-        public void Audit(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Audit(t, msgBuilder));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Audit(t, msgBuilder));
-        }
-        
-        
-        public void Warning(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Warning(t, msgBuilder));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Warning(t, msgBuilder));
-        }
-        
-        public void Error(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Error(t, msgBuilder));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Error(t, msgBuilder));
-        }
-        
-
-        public void Alert(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Alert(t, msgBuilder));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder = CreateMessageClosure(msgBuilder);
-
-            BufferedAction(l => l.Alert(t, msgBuilder));
-        }
-        
-        public void IncrementCounterBy(IRawCounterToken ct, long value)
+        public void IncrementCounterBy(ICounterToken ct, long value)
         {
             BufferedAction(l => l.IncrementCounterBy(ct, value));
         }
-        public void SetCounterValue(IRawCounterToken ct, long value)
+        public void SetCounter(ICounterToken ct, long value)
         {
-            BufferedAction(l => l.SetCounterValue(ct, value));
-        }
-        
-        public void IncrementCounterBy(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            BufferedAction(l => l.IncrementCounterBy(lt, ct, value));
-        }
-        public void SetCounterValue(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            BufferedAction(l => l.SetCounterValue(lt, ct, value));
+            BufferedAction(l => l.SetCounter(ct, value));
         }
         
         public void Dispose()

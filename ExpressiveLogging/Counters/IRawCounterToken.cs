@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.Counters
+namespace ExpressiveLogging.V3
 {
-    public interface IRawCounterToken
+    public interface ICounterToken
     {
-        string Name { get; }
+        string Counter { get; }
     }
 }

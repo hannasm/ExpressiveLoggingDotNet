@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.Tests
+namespace ExpressiveLogging.V3.Tests
 {
     public class TestBase
     {
@@ -16,7 +16,7 @@ namespace ExpressiveLogging.Tests
         [TestInitialize]
         public virtual void OnTestStart()
         {
-            _assert = MSTestAssertionTool.Create();
+            _assert = ExpressiveAssertions.Tooling.ShortAssertionRendererTool.Create(MSTestAssertionTool.Create());
         }
         [TestCleanup]
         public virtual void OnTestEnd()

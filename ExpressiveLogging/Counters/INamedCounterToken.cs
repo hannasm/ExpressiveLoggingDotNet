@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressiveLogging.Counters
+namespace ExpressiveLogging.V3
 {
-    public interface INamedCounterToken
+    public interface INamedCounterToken : ICounterToken
     {
         string Name { get; }
     }

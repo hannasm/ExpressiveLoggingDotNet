@@ -1,17 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ExpressiveLogging.Counters
+namespace ExpressiveLogging.V3
 {
-    class RawCounterToken : IRawCounterToken
+    class CounterToken : ICounterToken, IEquatable<ICounterToken>, IEquatable<CounterToken>
+
     {
-        public string Name { get; private set; }
-        internal RawCounterToken(string name)
+        public string Counter { get; private set; }
+        internal CounterToken(string counter)
         {
-            this.Name = name;
+            if (counter == null) { throw new ArgumentNullException(nameof(counter)); }
+            this.Counter = counter;
+        }
+
+        public bool Equals(ICounterToken other)
+        {
+          return this.Equals(other as CounterToken);
+        }
+
+        public bool Equals(CounterToken other)
+        {
+           if (other != null) return false;
+           if (ReferenceEquals(this, other)) return true;
+           if (other.GetType() != GetType()) return false;
+           return string.Equals(other.Counter, Counter);
+        }
+        public override bool Equals(object obj) {
+          return this.Equals(obj as CounterToken);
+        }
+
+        public override int GetHashCode() {
+          return this.Counter.GetHashCode();
         }
     }
 }

@@ -4,18 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExpressiveLogging.Context;
-using ExpressiveLogging.Counters;
+using ExpressiveLogging.V3.Context;
 
-namespace ExpressiveLogging.StreamFormatters
+namespace ExpressiveLogging.V3
 {
-    public class ExceptionFormatterLogStream : ILogStream
+    public class ExceptionFormatterLogStream : DelegatingLogStream
     {
-        ILogStream _inner;
-        public ExceptionFormatterLogStream(ILogStream inner)
+        public ExceptionFormatterLogStream(ILogStream inner) : base(inner)
         {
-            _inner = inner;
-
             AddFormatter(typeof(AggregateException), AggregateExceptionRenderer);
         }
 
@@ -162,164 +158,9 @@ namespace ExpressiveLogging.StreamFormatters
             }
         }
 
-        public void OnAttachScopeParameters(ILogToken lt, List<KeyValuePair<string, object>> parameters)
+        public override void Write(ILogToken t, Action<CompleteLogMessage> msgBuilder)
         {
-            _inner.OnAttachScopeParameters(lt, parameters);
-        }
-
-        public void BeginScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.BeginScope(ctx, t, msgBuilder);
-        }
-
-        public void EndScope(ILoggingContext ctx, ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.EndScope(ctx, t, msgBuilder);
-        }
-
-        public void Debug(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Debug(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Debug(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Debug(t, msgBuilder);
-        }
-
-        public void Debug(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Debug(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Debug(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Debug(t, msgBuilder);
-        }
-
-        public void Info(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Info(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Info(t, msgBuilder);
-        }
-
-        public void Info(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Info(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Info(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Info(t, msgBuilder);
-        }
-
-        public void Audit(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Audit(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Audit(t, msgBuilder);
-        }
-
-        public void Audit(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Audit(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Audit(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Audit(t, msgBuilder);
-        }
-
-        public void Warning(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Warning(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Warning(t, msgBuilder);
-        }
-
-        public void Warning(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Warning(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Warning(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Warning(t, msgBuilder);
-        }
-
-        public void Error(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Error(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Error(t, msgBuilder);
-        }
-
-        public void Error(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Error(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Error(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Error(t, msgBuilder);
-        }
-
-        public void Alert(ILogToken t, Action<LogExceptionMessage> msgBuilder)
-        {
-            msgBuilder((e, m, f) => _inner.Alert(t, g => g(FormatException(e), m, f)));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessage> msgBuilder)
-        {
-            _inner.Alert(t, msgBuilder);
-        }
-
-        public void Alert(ILogToken t, Action<LogExceptionMessageWithCustomUniqueness> msgBuilder)
-        {
-            msgBuilder((e, u, m, f) => _inner.Alert(t, g => g(FormatException(e), u, m, f)));
-        }
-
-        public void Alert(ILogToken t, Action<LogFormatMessageWithCustomUniqueness> msgBuilder)
-        {
-            _inner.Alert(t, msgBuilder);
-        }
-
-        public void IncrementCounterBy(IRawCounterToken ct, long value)
-        {
-            _inner.IncrementCounterBy(ct, value);
-        }
-
-        public void SetCounterValue(IRawCounterToken ct, long value)
-        {
-            _inner.SetCounterValue(ct, value);
-        }
-
-        public void IncrementCounterBy(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            _inner.IncrementCounterBy(lt, ct, value);
-        }
-
-        public void SetCounterValue(ILogToken lt, INamedCounterToken ct, long value)
-        {
-            _inner.SetCounterValue(lt, ct, value);
-        }
-
-        public void Dispose()
-        {
-            _inner.Dispose();
+            msgBuilder((e, u, m, f) => _inner.Write(t, g => g(FormatException(e), u, m, f)));
         }
     }
 }
