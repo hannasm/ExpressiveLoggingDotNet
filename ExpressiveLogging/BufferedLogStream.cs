@@ -11,7 +11,7 @@ namespace ExpressiveLogging.V3
     /// Buffers all logging actions as they are executed,
     /// these buffered action can then be invoked at a later point in time.
     /// </summary>
-    public class BufferedLogStream : ILogStream
+    public class BufferedLogStream : ILogStream, IBufferLogStream
     {
         private ConcurrentQueue<Action<ILogStream>> _messageQueue = new ConcurrentQueue<Action<ILogStream>>();
         private static readonly ILogToken _lt = LogManager.GetToken();
@@ -25,23 +25,16 @@ namespace ExpressiveLogging.V3
             return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
         }
 
-        /// <summary>
-        /// Execute all actions in the buffer on the specified logger
-        /// </summary>
-        public bool ExecuteBuffer(ILogStream log)
-        {
-            return ExecuteBuffer(log, TimeSpan.FromMilliseconds(10));
-        }
-        /// <summary>
-        /// Execute as many actions from the buffer in the given timeout interval 
-        /// on the specified logger
-        /// </summary>
-        public bool ExecuteBuffer(ILogStream log, TimeSpan timeout)
+        public bool ExecuteBuffer(ILogStream log, TimeSpan timeout, uint? count)
         {
             Stopwatch timer = Stopwatch.StartNew();
+            uint totalCount = 0;
             while (timer.Elapsed < timeout)
             {
-                if (ExecuteBuffer(log, 1) != 1) { break; }
+              var localCount = ExecuteBuffer(log, 1);
+              if (localCount == 0) { break; }
+              totalCount += localCount;
+              if (totalCount >= count) { break; }
             }
 
             if (timer.Elapsed > timeout)
@@ -55,9 +48,9 @@ namespace ExpressiveLogging.V3
             }
         }
 
-        public int ExecuteBuffer(ILogStream log, int count)
+        public uint ExecuteBuffer(ILogStream log, uint count)
         {
-            int oldCount = count;
+            uint oldCount = count;
             Action<ILogStream> nextAction; 
             while (count > 0 && _messageQueue.TryDequeue(out nextAction))
             {
