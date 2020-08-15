@@ -22,10 +22,12 @@ namespace ExpressiveLogging.V3
           _buffers = new ConcurrentDictionary<IBufferLogStream, IBufferLogStream>(streams.ToDictionary(s=>s, s=>s));
         }
 
-        /// <summary>
-        /// Execute as many actions from the buffer in the given timeout interval 
-        /// on the specified logger
-        /// </summary>
+        public int BufferSize {
+          get {
+            return _buffers.Values.Sum(b=>b.BufferSize);
+          }
+        }
+
         public bool ExecuteBuffer(ILogStream log, TimeSpan timeout, uint? count)
         {
             Stopwatch timer = Stopwatch.StartNew();

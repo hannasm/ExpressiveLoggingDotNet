@@ -20,6 +20,8 @@ namespace ExpressiveLogging.V3
         {
         }
 
+        public int BufferSize { get { return _messageQueue.Count; } }
+
         private Action<CompleteLogMessage> CreateMessageClosure(Action<CompleteLogMessage> msgBuilder)
         {
             return LogMessageClosureTool.CreateMessageClosure(msgBuilder);
@@ -27,8 +29,8 @@ namespace ExpressiveLogging.V3
 
         public bool ExecuteBuffer(ILogStream log, TimeSpan timeout, uint? count)
         {
-            Stopwatch timer = Stopwatch.StartNew();
             uint totalCount = 0;
+            Stopwatch timer = Stopwatch.StartNew();
             while (timer.Elapsed < timeout)
             {
               var localCount = ExecuteBuffer(log, 1);
@@ -63,8 +65,10 @@ namespace ExpressiveLogging.V3
 
         protected void BufferedAction(Action<ILogStream> action)
         {
-            BufferedAction((l, c) => action(l));
+            _messageQueue.Enqueue(action);
+            //BufferedAction((l, c) => action(l));
         }
+        /*
         protected virtual void BufferedAction(Action<ILogStream,ILoggingContext> action)
         {
             // A buffered log stream is required to be thread safe, and must properly
@@ -91,6 +95,7 @@ namespace ExpressiveLogging.V3
 
             _messageQueue.Enqueue(act2);
         }
+        */
         
         private string BUFFERED_LOGTOKEN_KEY = Guid.NewGuid().ToString("N");
         public void OnAttachScopeParameters(ILogToken lt, List<KeyValuePair<string, object>> parameters)

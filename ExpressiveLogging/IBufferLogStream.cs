@@ -16,5 +16,7 @@ namespace ExpressiveLogging.V3 {
         /// </summary>
         /// <return>the number of events executed</return>
         uint ExecuteBuffer(ILogStream log, uint count);
+        /// <summary>Total number of elements in the buffer</summary>
+        int BufferSize { get; }
   }
 }

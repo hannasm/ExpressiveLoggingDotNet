@@ -19,7 +19,7 @@ namespace ExpressiveLogging.V3
 
         public bool Equals(CounterToken other)
         {
-           if (other != null) return false;
+           if (other == null) return false;
            if (ReferenceEquals(this, other)) return true;
            if (other.GetType() != GetType()) return false;
            return string.Equals(other.Counter, Counter);

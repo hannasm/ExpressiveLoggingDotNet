@@ -1,12 +1,8 @@
 ﻿using ExpressiveAssertions;
 using ExpressiveAssertions.Tooling;
-using ExpressiveLogging.V3.Context;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpressiveLogging.V3.Tests
 {
@@ -342,6 +338,78 @@ namespace ExpressiveLogging.V3.Tests
             var log = CreateInvertedAssertionLogger();
             log.IncrementCounterBy(_nct, 10);
             log.AssertSetNamedCounter((c, v) => _assert.AreEqual(_nct, c));
+        }
+
+        static readonly ILogToken _lt1 = LogManager.GetToken();
+        static readonly ILogToken _lt2 = LogManager.GetToken(_lt1, "Two");
+        static readonly ILogToken _lt3 = LogManager.GetToken(_lt1, "Three");
+
+        [TestMethod]
+        public void Test200() {
+          var _buffer = CreateStandardAssertionLogger();
+
+          _buffer.Write(_lt1, m=>m("Hello World"));
+          _assert.AreEqual(()=>1, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World");
+              _assert.AreEqual(t, _lt1);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>0, ()=>_buffer.BufferSize);
+        }
+
+        [TestMethod]
+        public void Test201() {
+          var _buffer = CreateStandardAssertionLogger();
+          _buffer.Write(_lt1, m=>m("Hello World"));
+          _buffer.Write(_lt2, m=>m("Hello World 2"));
+          _assert.AreEqual(()=>2, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World");
+              _assert.AreEqual(t, _lt1);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>1, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World 2");
+              _assert.AreEqual(t, _lt2);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>0, ()=>_buffer.BufferSize);
+        }
+
+        [TestMethod]
+        public void Test202() {
+          var _buffer = CreateStandardAssertionLogger();
+
+          _buffer.Write(_lt1, m=>m("Hello World"));
+          _buffer.Write(_lt2, m=>m("Hello World 2"));
+          _buffer.Write(_lt3, m=>m("Hello World 3"));
+          _assert.AreEqual(()=>3, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World");
+              _assert.AreEqual(t, _lt1);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>2, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World 2");
+              _assert.AreEqual(t, _lt2);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>1, ()=>_buffer.BufferSize);
+          _buffer.AssertMessage((t,e,u,m,f)=>{
+              _assert.AreEqual(m, "Hello World 3");
+              _assert.AreEqual(t, _lt3);
+              _assert.IsNull(()=>e);
+              _assert.Count(0, ()=>f);
+            });
+          _assert.AreEqual(()=>0, ()=>_buffer.BufferSize);
         }
     }
 }
